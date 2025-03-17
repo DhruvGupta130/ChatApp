@@ -19,15 +19,15 @@ public class RoomController {
     private final RoomService roomService;
 
     @GetMapping
-    public ResponseEntity<Room> getRoom(@RequestParam String roomName, @RequestParam String password) {
-        return ResponseEntity.ok(roomService.fetchRoom(roomName, password));
+    public ResponseEntity<Room> getRoom(@RequestParam String roomName) {
+        return ResponseEntity.ok(roomService.fetchRoom(roomName));
     }
 
     @PostMapping
-    public ResponseEntity<Room> createRoom(@RequestBody String roomName, @RequestBody String password) {
+    public ResponseEntity<Room> createRoom(@RequestBody String roomName) {
         if(roomService.isRoomExists(roomName))
             throw new IllegalArgumentException("Room already exists!");
-        return ResponseEntity.status(HttpStatus.CREATED).body(roomService.createRoom(roomName, password));
+        return ResponseEntity.status(HttpStatus.CREATED).body(roomService.createRoom(roomName));
     }
 
     @GetMapping("/messages")

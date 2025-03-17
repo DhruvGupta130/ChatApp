@@ -6,22 +6,18 @@ import { joinRoom } from "../services/api.js";
 
 const JoinRoomPage = () => {
     const [roomName, setRoomName] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const [name, setName] = useState(localStorage.getItem("userName"));
     const [loading, setLoading] = useState(false);
     const [isAnonymous, setIsAnonymous] = useState(false);
     const navigate = useNavigate();
     const defaultName = "user" + Math.floor(Math.random() * 100000);
 
     const handleJoinRoom = async () => {
-        if (!roomName.trim() || !password.trim()) {
-            toast.warn("Please enter room name and password!");
-            return;
-        }
         try {
             setLoading(true);
-            await joinRoom(roomName, password);
+            await joinRoom(roomName);
             toast.success(`Joined room "${roomName}" successfully!`);
+            localStorage.setItem("userName", name);
             navigate(`/room/${roomName}/${isAnonymous ? defaultName : name || defaultName}`);
         } catch (err) {
             toast.error(err?.response?.data?.message || "Error while joining room!");
@@ -71,23 +67,14 @@ const JoinRoomPage = () => {
                         </label>
                     </div>
 
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="w-full border p-3 rounded-lg mt-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        disabled={loading}
-                    />
-
                     <button
                         onClick={handleJoinRoom}
                         className={`mt-5 w-full px-5 py-3 rounded-lg text-white text-lg font-medium flex items-center justify-center gap-2 ${
-                            roomName.trim() && password.trim()
+                            roomName.trim()
                                 ? "bg-blue-600 hover:bg-blue-700"
                                 : "bg-gray-400 cursor-not-allowed"
                         }`}
-                        disabled={!roomName.trim() || !password.trim() || loading}
+                        disabled={!roomName.trim() || loading}
                     >
                         {loading ? "Joining..." : <><FaSignInAlt /> Join Room</>}
                     </button>

@@ -1,7 +1,9 @@
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import {BACKEND_URL} from "./config.js";
+import {toast} from "react-toastify";
 
-const SOCKET_URL = "http://localhost:8080/ws"; // Use HTTP for SockJS
+const SOCKET_URL = `${BACKEND_URL}/ws`; // Use HTTP for SockJS
 
 let stompClient = null;
 
@@ -43,7 +45,9 @@ export const sendMessage = (roomName, sender, content) => {
             body: JSON.stringify({ sender, content }),
         });
     } else {
+        toast.error("Error while sending message, refreshing");
         console.error("❌ Cannot send message: WebSocket is not connected!");
+        setTimeout(() => window.location.href="/", 1000);
     }
 };
 

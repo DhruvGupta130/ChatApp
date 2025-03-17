@@ -19,7 +19,6 @@ public class Room {
 
     @Column(unique = true)
     private String name;
-    private String password;
 
     @UpdateTimestamp
     private LocalDateTime lastUpdate;

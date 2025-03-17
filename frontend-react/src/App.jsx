@@ -6,6 +6,7 @@ import JoinRoom from "./components/JoinRoom.jsx";
 import CreateRoom from "./components/CreateRoom.jsx";
 import "react-toastify/dist/ReactToastify.css";
 import {ToastContainer} from "react-toastify";
+import RoomSuccess from "./components/RoomSuccess.jsx";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/join-room" element={<JoinRoom />} />
                     <Route path="/create-room" element={<CreateRoom />} />
+                    <Route path="/room-success/:roomName" element={<RoomSuccess />} />
                     <Route path="/room/:roomName/:userName" element={<ChatRoom />} />
                 </Routes>
             </Router>

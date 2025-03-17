@@ -13,9 +13,12 @@ const ChatRoom = () => {
     const [isPressed, setIsPressed] = useState(false);
     const navigate = useNavigate();
     const messagesEndRef = useRef(null);
+    const password = sessionStorage.getItem("room");
 
     useEffect(() => {
-        getMessages(roomName).then((res) => setMessages(res.data));
+        getMessages(roomName).then((res) => {
+            setMessages(res.data);
+        });
 
         connectWebSocket(roomName, (newMessage) => {
             setMessages((prev) => [...prev, newMessage]);
@@ -46,7 +49,7 @@ const ChatRoom = () => {
         if (!window.confirm("Are you sure you want to delete this chat room? This action is irreversible!")) return;
 
         try {
-            await deleteRoom(roomName); // Call delete room API
+            await deleteRoom(roomName, password); // Call delete room API
             toast.success(`Room "${roomName}" deleted successfully.`);
             navigate("/"); // Redirect to home page
         } catch (error) {
@@ -89,14 +92,25 @@ const ChatRoom = () => {
                     {messages.length === 0 ? (
                         <p className="text-center text-gray-500">No messages yet...</p>
                     ) : (
-                        messages.map((msg, index) => (
-                            <div key={index} className={`flex mb-3 ${msg.sender === userName ? "justify-end" : "justify-start"}`}>
-                                <div className={`p-3 max-w-xs rounded-lg shadow-md ${msg.sender === userName ? "bg-blue-500 text-white" : "bg-gray-300 text-gray-900"}`}>
-                                    <strong className="block text-sm">{msg.sender}</strong>
-                                    <p>{msg.content}</p>
-                                </div>
-                            </div>
-                        ))
+                        messages.map((msg, index) => {
+                                const messageTime = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+                                return (
+                                    <div key={index} className={`flex mb-3 ${msg.sender === userName ? "justify-end" : "justify-start"}`}>
+                                        <div
+                                            className={`relative p-3 min-w-30 rounded-2xl shadow-lg ${
+                                                msg.sender === userName
+                                                    ? "bg-gradient-to-br from-blue-500 to-indigo-600 text-white"
+                                                    : "bg-gray-300 text-gray-900"
+                                            }`}
+                                        >
+                                            <strong className="block text-xs">{msg.sender}</strong>
+                                            <p className="text-base mb-3">{msg.content}</p>
+                                            <span className={`absolute bottom-1 right-2 text-xs ${msg.sender === userName? `text-gray-300` : "text-gray-600"}`}>{messageTime}</span>
+                                        </div>
+                                    </div>
+                                );
+                            })
                     )}
                     <div ref={messagesEndRef}></div>
                 </div>

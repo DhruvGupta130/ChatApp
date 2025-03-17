@@ -16,7 +16,7 @@ public class RoomService {
 
     private final RoomRepo roomRepo;
 
-    public Room fetchRoom(String roomName, String password) {
+    public Room fetchRoom(String roomName) {
         return roomRepo.findByName(roomName)
                 .orElseThrow(() -> new EntityNotFoundException("Room with name " + roomName + " not found") );
     }
@@ -25,10 +25,9 @@ public class RoomService {
         return roomRepo.findByName(roomName).isPresent();
     }
 
-    public Room createRoom(String roomName, String password) {
+    public Room createRoom(String roomName) {
         Room room = new Room();
         room.setName(roomName);
-        room.setPassword(password);
         return roomRepo.save(room);
     }
 

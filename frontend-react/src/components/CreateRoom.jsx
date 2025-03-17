@@ -6,28 +6,15 @@ import { toast } from "react-toastify";
 
 const CreateRoomPage = () => {
     const [roomName, setRoomName] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleCreateRoom = async () => {
-        if (!roomName.trim() || !password.trim()) {
-            toast.warn("Room name and password cannot be empty!");
-            return;
-        }
-        if(password.trim().length < 6) {
-            toast.warn("Password must be at least 6 characters!");
-        }
-        if(password !== confirmPassword) {
-            toast.warn("Confirm password must match with password!");
-        }
-
         setLoading(true);
         try {
-            await createRoom({ roomName, password });
+            await createRoom(roomName);
             toast.success(`Room "${roomName}" created successfully!`);
-            navigate(`/room/${roomName}`);
+            navigate(`/room-success/${roomName}`);
         } catch (error) {
             toast.error(error.response?.data?.message || "Error in creating room!");
         } finally {
@@ -41,7 +28,7 @@ const CreateRoomPage = () => {
                 <h2 className="text-3xl font-extrabold text-gray-900 flex justify-center items-center gap-2">
                     <FaPlus className="text-green-600" /> Create Room
                 </h2>
-                <p className="text-gray-600 mt-2">Start a new chat room with a password.</p>
+                <p className="text-gray-600 mt-2">Start a new chat room</p>
 
                 <div className="mt-5">
                     <input
@@ -53,36 +40,14 @@ const CreateRoomPage = () => {
                         disabled={loading}
                     />
 
-                    <div className="relative mt-3">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            disabled={loading}
-                        />
-                    </div>
-
-                    <div className="relative mt-3">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            disabled={loading}
-                        />
-                    </div>
-
                     <button
                         onClick={handleCreateRoom}
                         className={`mt-5 w-full px-5 py-3 rounded-lg text-white text-lg font-medium flex items-center justify-center gap-2 ${
-                            roomName.trim() && password.trim()
+                            roomName.trim()
                                 ? "bg-green-600 hover:bg-green-700"
                                 : "bg-gray-400 cursor-not-allowed"
                         }`}
-                        disabled={!roomName.trim() || !password.trim() || loading}
+                        disabled={!roomName.trim() || loading}
                     >
                         {loading ? "Creating..." : <><FaPlus /> Create Room</>}
                     </button>

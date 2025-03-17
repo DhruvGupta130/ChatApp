@@ -9,8 +9,8 @@ export const createRoom = async (roomName) => {
     });
 };
 
-export const joinRoom = async (roomName, password) => {
-    return axios.get(`${API_BASE_URL}/rooms?roomName=${roomName}&password=${password}`);
+export const joinRoom = async (roomName) => {
+    return axios.get(`${API_BASE_URL}/rooms?roomName=${roomName}`);
 };
 
 export const getMessages = async (roomName) => {

@@ -6,6 +6,7 @@ import org.example.chatapp.service.ChatService;
 import org.example.chatapp.service.RoomService;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,9 @@ public class ChatController {
     }
 
     @MessageMapping("/sendMessage/{roomName}")
-    public void sendMessage(@DestinationVariable String roomName, ChatMessage message) {
-        roomService.addMessage(roomService.fetchRoom(roomName, null), message);
+    public void sendMessage(@DestinationVariable String roomName, @Payload ChatMessage message) {
+        roomService.addMessage(roomService.fetchRoom(roomName), message);
         simpMessagingTemplate.convertAndSend("/topic/room/" + roomName, message);
     }
+
 }
