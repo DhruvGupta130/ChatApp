@@ -1,0 +1,55 @@
+services:
+  # MySQL Database
+  chat-db:
+    image: postgres:latest
+    container_name: chat-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chat_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - chat-data:/var/lib/postgresql/data
+    networks:
+      - chat-network
+
+  # Spring Boot Backend
+  chatapp-backend:
+    build: ./backend-springboot
+    container_name: chatapp-backend
+    environment:
+      # Database Configuration
+      DATASOURCE_URL: jdbc:postgresql://chat-db:5432/chat_db
+      DATASOURCE_USERNAME: postgres
+      DATASOURCE_PASSWORD: postgres
+
+      # Frontend URL
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "8080:8080"
+    depends_on:
+      - chat-db
+    networks:
+      - chat-network
+
+  # Frontend (React.js)
+  frontend:
+    build: ./frontend-react
+    container_name: frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_BACKEND_URL: http://localhost:8080
+      VITE_GOOGLE_MAPS_API_KEY: <GOOGLE_MAPS_API_KEY>
+    depends_on:
+      - chatapp-backend
+    networks:
+      - chat-network
+
+volumes:
+  chat-data:
+
+networks:
+  chat-network:
+    driver: bridge
