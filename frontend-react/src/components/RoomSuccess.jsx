@@ -52,7 +52,7 @@ const RoomSuccess = () => {
                         onClick={() => navigate(roomLink)}
                         className="flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition w-full md:w-auto"
                     >
-                        <FaCopy className="mr-2" /> Navigate 🧭
+                        🧭 Navigate
                     </button>
                     <button
                         onClick={shareViaWhatsApp}
