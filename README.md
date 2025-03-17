@@ -32,26 +32,26 @@ The **Real-Time Chat Application** is a web-based messaging platform designed fo
 ## 📂 Project Structure
 ```
 chat-app/
-├── backend/              # Spring Boot Backend
+├── backend/                                # Spring Boot Backend
 │   ├── src/main/java/com/chatapp/
-│   │   ├── config/       # WebSocket & Security Configurations
-│   │   ├── controller/   # API Controllers
-│   │   ├── service/      # Business Logic
-│   │   ├── repository/   # Database Repositories
-│   │   ├── model/        # Entity Models
+│   │   ├── config/                         # WebSocket & Security Configurations
+│   │   ├── controller/                     # API Controllers
+│   │   ├── service/                        # Business Logic
+│   │   ├── repository/                     # Database Repositories
+│   │   ├── model/                          # Entity Models
 │   ├── src/main/resources/
-│   │   ├── application.properties  # Environment Configurations
-│   ├── pom.xml           # Maven Dependencies
+│   │   ├── application.properties          # Environment Configurations
+│   ├── pom.xml                             # Maven Dependencies
 │
-├── frontend/             # React Frontend
+├── frontend/                               # React Frontend
 │   ├── src/
-│   │   ├── components/   # Reusable UI Components
-│   │   ├── pages/        # Page-Level Components
-│   │   ├── context/      # Global State Management
-│   │   ├── services/     # API and WebSocket Services
-│   │   ├── App.js        # Main App Component
-│   │   ├── index.js      # Entry Point
-│   ├── package.json      # Dependencies & Scripts
+│   │   ├── components/                     # Reusable UI Components
+│   │   ├── pages/                          # Page-Level Components
+│   │   ├── context/                        # Global State Management
+│   │   ├── services/                       # API and WebSocket Services
+│   │   ├── App.js                          # Main App Component
+│   │   ├── index.js                        # Entry Point
+│   ├── package.json                        # Dependencies & Scripts
 ```
 
 ## ⚙️ Installation & Setup
