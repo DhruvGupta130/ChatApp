@@ -93,7 +93,7 @@ const ChatRoom = () => {
                         <p className="text-center text-gray-500">No messages yet...</p>
                     ) : (
                         messages.map((msg, index) => {
-                                const messageTime = new Date(msg.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+                                const messageTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
                                 return (
                                     <div key={index} className={`flex mb-3 ${msg.sender === userName ? "justify-end" : "justify-start"}`}>
